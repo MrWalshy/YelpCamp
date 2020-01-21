@@ -17,11 +17,17 @@ const commentRoutes = require("./routes/comments");
 const campgroundRoutes = require("./routes/campgrounds");
 const authRoutes = require("./routes/auth");
 
+const backupDB = "mongodb://localhost/yelp_camp"
 // connects to & creates yelp_camp db
-mongoose.connect("mongodb://localhost/yelp_camp", {
+mongoose.connect(process.env.DATABASEURL || backupDB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+    useUnifiedTopology: true,
+    useCreateIndex: true
+}).then(() => {
+    console.log("Connected to DB ");
+}).catch(error => {
+    console.log("ERROR:", error.message);
+})
 // seedDB();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -59,6 +65,6 @@ app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use(authRoutes);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("YelpCamp Server Started!");
 });

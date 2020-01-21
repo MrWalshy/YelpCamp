@@ -16,7 +16,7 @@ router.get("/", (request, response) => {
         }
         else {
             // allCampgrounds is from the DB
-            response.render("campgrounds/index", {campgrounds: allCampgrounds});
+            response.render("campgrounds/index", {campgrounds: allCampgrounds, page: 'campgrounds'});
         }
     });
     // response.render("campgrounds", {campgrounds: campgrounds});
